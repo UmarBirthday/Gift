@@ -62,7 +62,7 @@
 <body class="min-h-screen antialiased selection:bg-pink-400/30 selection:text-pink-100">
   <div class="fixed inset-x-0 top-0 h-[45vh] bg-gradient-to-b from-pink-900 via-fuchsia-800 to-transparent opacity-70 -z-10"></div>
   <button onclick="toggleMusic()" class="fixed bottom-4 right-4 z-50 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-    <i class="fa-solid fa-music"></i> <span id="musicStatus">Play Music</span>
+    <i class="fa-solid fa-music"></i> <span id="musicStatus">Pause Music</span>
   </button>
 
   <main class="max-w-4xl mx-auto px-4 pb-20">
@@ -172,18 +172,18 @@
     </footer>
   </main>
   
-  <!-- Simple YouTube embed that works everywhere -->
+  <!-- Auto-playing YouTube embed -->
   <iframe id="youtube-player" 
-    src="https://www.youtube.com/embed/9LxzyrhBsFI?enablejsapi=1&autoplay=0&loop=1&playlist=9LxzyrhBsFI&controls=0&mute=0&rel=0&modestbranding=1" 
+    src="https://www.youtube.com/embed/9LxzyrhBsFI?autoplay=1&loop=1&playlist=9LxzyrhBsFI&controls=0&mute=0&rel=0&modestbranding=1" 
     style="display:none;" 
     allow="autoplay; encrypted-media">
   </iframe>
 
   <script>
-    let isPlaying = false;
+    let isPlaying = true; // Start as playing since autoplay is on
     let youtubePlayer = document.getElementById('youtube-player');
     
-    // Simple music toggle that works everywhere
+    // Music toggle function
     function toggleMusic() {
       const musicStatus = document.getElementById('musicStatus');
       
@@ -192,13 +192,13 @@
         youtubePlayer.src = '';
         musicStatus.textContent = 'Play Music';
         isPlaying = false;
-        console.log('Music stopped');
+        console.log('Music paused');
       } else {
         // Start music with autoplay=1
         youtubePlayer.src = 'https://www.youtube.com/embed/9LxzyrhBsFI?autoplay=1&loop=1&playlist=9LxzyrhBsFI&controls=0&mute=0&rel=0&modestbranding=1';
         musicStatus.textContent = 'Pause Music';
         isPlaying = true;
-        console.log('Music started');
+        console.log('Music resumed');
       }
     }
 
