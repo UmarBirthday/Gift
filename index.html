@@ -3,154 +3,297 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Birthday Portal</title>
+  <title>Elegant Birthday Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       height: 100vh;
-      background: #000;
-      font-family: 'Space Grotesk', sans-serif;
+      background: radial-gradient(ellipse at bottom, #0d121c 0%, #03040a 100%);
+      font-family: 'Montserrat', sans-serif;
       overflow: hidden;
+      color: #e0e0e0;
     }
 
-    /* Glass form */
+    /* Elegant Glassmorphism Card */
     .card {
       position: relative;
       z-index: 10;
-      backdrop-filter: blur(15px);
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 1rem;
-      padding: 2rem;
-      width: 320px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-      animation: fadeIn 2s ease both;
+      backdrop-filter: blur(25px); /* Increased blur for more elegance */
+      background: rgba(255, 255, 255, 0.08); /* Slightly brighter background */
+      border: 1px solid rgba(255, 255, 255, 0.2); /* Defined border */
+      border-radius: 1.5rem; /* More rounded corners */
+      padding: 2.5rem 3rem; /* More generous padding */
+      width: 380px; /* Slightly wider */
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7); /* Deeper shadow */
+      animation: fadeIn 1.8s ease-out forwards;
+      transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+      overflow: hidden; /* For inner gradients */
+    }
+
+    /* Inner glow for the card */
+    .card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+        opacity: 0.5;
+        animation: rotateGlow 15s linear infinite;
+        z-index: -1;
     }
 
     .title {
-      font-size: 1.8rem;
-      font-weight: 600;
-      background: linear-gradient(90deg, #fff, #aaa);
+      font-family: 'Playfair Display', serif; /* Elegant serif font for title */
+      font-size: 2.5rem; /* Larger, more prominent title */
+      font-weight: 700;
+      background: linear-gradient(135deg, #e0e0e0, #ffffff, #c0c0c0); /* Softer, richer gradient */
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem; /* More space below title */
       text-align: center;
+      letter-spacing: 0.05em; /* Subtle letter spacing */
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* Soft glow for title */
     }
 
     input {
       width: 100%;
-      padding: 0.75rem 1rem;
-      margin-bottom: 1rem;
-      border: none;
-      border-radius: 0.5rem;
-      background: rgba(255,255,255,0.1);
-      color: white;
+      padding: 1rem 1.25rem; /* Increased padding for better feel */
+      margin-bottom: 1.5rem; /* *** ENHANCED: Increased vertical spacing between inputs *** */
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 0.75rem; /* More rounded input fields */
+      background: rgba(255, 255, 255, 0.07); /* Very subtle input background */
+      color: #f0f0f0;
       outline: none;
-      transition: background 0.3s, transform 0.2s;
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      font-size: 1rem;
+      text-align: center; /* *** ENHANCED: Centered placeholder text *** */
+    }
+
+    input::placeholder {
+        color: rgba(255, 255, 255, 0.45); /* Slightly brighter placeholder */
     }
 
     input:focus {
-      background: rgba(255,255,255,0.2);
-      transform: scale(1.02);
+      background: rgba(255, 255, 255, 0.15); /* More visible on focus */
+      border-color: rgba(255, 255, 255, 0.6); /* Clearer border on focus */
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2), inset 0 0 5px rgba(255, 255, 255, 0.1); /* Subtle inner and outer glow */
     }
 
     button {
       width: 100%;
-      padding: 0.8rem;
-      border-radius: 0.5rem;
+      padding: 1rem 1.5rem; /* Generous button padding */
+      border-radius: 0.75rem; /* Matching rounded corners */
       border: none;
       cursor: pointer;
-      font-weight: 600;
-      background: linear-gradient(90deg, #fff, #bbb);
-      color: black;
-      transition: transform 0.2s;
+      font-weight: 700; /* Bolder button text */
+      font-size: 1.1rem;
+      background: linear-gradient(135deg, #ffffff, #e0e0e0); /* Elegant silver gradient */
+      color: #1a1a1a; /* Darker text for contrast by default */
+      transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease; /* *** ENHANCED: Added color to transition *** */
+      letter-spacing: 0.03em;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
 
     button:hover {
-      transform: scale(1.05);
+      transform: translateY(-3px) scale(1.02); /* Lift and slightly scale */
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.35); /* More prominent glow */
+      background: linear-gradient(135deg, #f0f0f0, #ffffff); /* Brighter on hover */
+      color: #000000; /* *** ENHANCED: Text color changes to black on hover *** */
     }
 
+    /* Keyframe animations */
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(60px) scale(0.9); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-2px, 0, 0); }
+      20%, 80% { transform: translate3d(4px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
+      40%, 60% { transform: translate3d(8px, 0, 0); }
+    }
+
+    @keyframes rotateGlow {
+        from { transform: translate(-50%, -50%) rotate(0deg); }
+        to { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
     canvas {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
       z-index: 0;
+    }
+
+    .error-message {
+        color: #ff9999; /* Softer red for elegance */
+        font-size: 0.95rem;
+        margin-top: 1.5rem;
+        text-align: center;
+        min-height: 1.5rem; /* Reserve space to prevent layout shift */
+        opacity: 0;
+        animation: fadeAndSlideIn 0.5s ease forwards;
+        text-shadow: 0 0 5px rgba(255, 153, 153, 0.3);
+    }
+    
+    @keyframes fadeAndSlideIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <!-- 3D Background -->
   <canvas id="bg"></canvas>
 
-  <!-- Form -->
   <div class="flex items-center justify-center h-screen">
-    <div class="card">
+    <div class="card" id="loginCard">
       <h1 class="title">Access Portal</h1>
-      <form id="loginForm">
-        <input type="text" id="username" placeholder="Enter your name" required />
-        <input type="password" id="password" placeholder="Enter password" required />
-        <button type="submit">Enter</button>
+      <form id="loginForm" class="flex flex-col gap-4">
+        <input type="text" id="username" placeholder="Your Name" required />
+  
+        <input type="password" id="password" placeholder="Secret Key" required />
+  
+        <button type="submit">Unlock the Magic ✨</button>
+        <p id="errorMessage" class="error-message"></p>
       </form>
     </div>
   </div>
 
   <script>
-    // Login Logic
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
+    // --- FORM LOGIN LOGIC ---
+    const loginForm = document.getElementById("loginForm");
+    const passwordInput = document.getElementById("password");
+    const loginCard = document.getElementById("loginCard");
+    const errorMessage = document.getElementById("errorMessage");
+
+    loginForm.addEventListener("submit", function(e) {
       e.preventDefault();
-      const password = document.getElementById("password").value.trim();
+      const password = passwordInput.value.trim();
+      
       if (password === "pooks2025") {
-        window.location.href = "birthday.html";
+        errorMessage.textContent = "";
+        errorMessage.style.opacity = 0; // Hide error message if previously shown
+        loginCard.style.transform = 'translateY(0) scale(0.9)'; // Subtle scale down
+        loginCard.style.opacity = '0';
+        loginCard.style.boxShadow = '0 0 50px rgba(255, 255, 255, 0.6)'; // Final glow before vanishing
+        
+        setTimeout(() => {
+            window.location.href = "birthday.html"; // Redirect
+        }, 800); // Give time for animation
       } else {
-        window.location.href = "wrong.html";
+        errorMessage.textContent = "Access Denied. The key is not correct.";
+        errorMessage.style.opacity = 1; // Make error message visible
+        loginCard.classList.add('shake');
+        passwordInput.value = ""; // Clear the wrong password
+        
+        setTimeout(() => {
+          loginCard.classList.remove('shake');
+        }, 600);
       }
     });
 
-    // THREE.js Background (floating orbs)
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("bg"), alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    // --- ADVANCED THREE.JS PARTICLE BACKGROUND ---
+    let scene, camera, renderer, particles, particleGeometry, controls;
 
-    const geometry = new THREE.IcosahedronGeometry(3, 1);
-    const material = new THREE.MeshStandardMaterial({
-      color: 0xffffff,
-      wireframe: true,
-      emissive: 0x555555,
-      transparent: true,
-      opacity: 0.6
-    });
+    function initThreeJS() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 5;
 
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+      renderer = new THREE.WebGLRenderer({
+        canvas: document.getElementById("bg"),
+        alpha: true,
+        antialias: true // Smoother edges
+      });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(window.innerWidth, window.innerHeight);
 
-    const light = new THREE.PointLight(0xffffff, 1);
-    light.position.set(10, 10, 10);
-    scene.add(light);
+      // Create a more dynamic particle system
+      particleGeometry = new THREE.BufferGeometry();
+      const particleCount = 2000;
+      const positions = new Float32Array(particleCount * 3);
+      const velocities = new Float32Array(particleCount * 3); // For particle movement
 
-    camera.position.z = 8;
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3;
+        // Random positions within a sphere
+        positions[i3] = (Math.random() - 0.5) * 20;
+        positions[i3 + 1] = (Math.random() - 0.5) * 20;
+        positions[i3 + 2] = (Math.random() - 0.5) * 20;
 
-    function animate() {
-      requestAnimationFrame(animate);
-      mesh.rotation.x += 0.002;
-      mesh.rotation.y += 0.003;
+        // Random velocities
+        velocities[i3] = (Math.random() - 0.5) * 0.005;
+        velocities[i3 + 1] = (Math.random() - 0.5) * 0.005;
+        velocities[i3 + 2] = (Math.random() - 0.5) * 0.005;
+      }
+
+      particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      particleGeometry.setAttribute('velocity', new THREE.BufferAttribute(velocities, 3));
+
+      const particleMaterial = new THREE.PointsMaterial({
+        color: 0xADD8E6, // A soft, elegant light blue
+        size: 0.08,
+        transparent: true,
+        opacity: 0.7,
+        blending: THREE.AdditiveBlending, // For glowing effect
+        sizeAttenuation: true
+      });
+
+      particles = new THREE.Points(particleGeometry, particleMaterial);
+      scene.add(particles);
+
+      // Add a subtle ambient light
+      const ambientLight = new THREE.AmbientLight(0x404040, 2); // soft white light
+      scene.add(ambientLight);
+
+      // Add a directional light for subtle highlights
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(5, 10, 5);
+      scene.add(directionalLight);
+
+      animateThreeJS();
+    }
+
+    function animateThreeJS() {
+      requestAnimationFrame(animateThreeJS);
+
+      // Update particle positions
+      const positions = particleGeometry.attributes.position.array;
+      const velocities = particleGeometry.attributes.velocity.array;
+
+      for (let i = 0; i < positions.length; i += 3) {
+        positions[i] += velocities[i];
+        positions[i + 1] += velocities[i + 1];
+        positions[i + 2] += velocities[i + 2];
+
+        // Loop particles when they go out of bounds
+        if (Math.abs(positions[i]) > 10) velocities[i] *= -1;
+        if (Math.abs(positions[i + 1]) > 10) velocities[i + 1] *= -1;
+        if (Math.abs(positions[i + 2]) > 10) velocities[i + 2] *= -1;
+      }
+      particleGeometry.attributes.position.needsUpdate = true;
+
+      // Rotate the entire particle system subtly
+      particles.rotation.y += 0.0005;
+      particles.rotation.x += 0.0002;
+
       renderer.render(scene, camera);
     }
-    animate();
 
-    // Handle resize
-    window.addEventListener("resize", () => {
+    function onWindowResizeThreeJS() {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+    }
+    window.addEventListener("resize", onWindowResizeThreeJS);
+
+    initThreeJS();
   </script>
 </body>
 </html>
