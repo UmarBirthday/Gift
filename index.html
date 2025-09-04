@@ -174,9 +174,8 @@
     </footer>
   </main>
   
-  <!-- Auto-playing YouTube embed -->
+  <!-- Hidden YouTube player -->
   <iframe id="youtube-player" 
-    src="https://www.youtube.com/embed/9LxzyrhBsFI?autoplay=1&loop=1&playlist=9LxzyrhBsFI&controls=0&mute=0&rel=0&modestbranding=1" 
     style="display:none;" 
     allow="autoplay; encrypted-media">
   </iframe>
@@ -184,23 +183,31 @@
   <script>
     let isPlaying = false;
     let youtubePlayer = document.getElementById('youtube-player');
-    
+
+    // Playlist of songs
+    const songs = [
+      "9LxzyrhBsFI", // old one
+      "KlbACbvPCFE",
+      "J4icjQMjm8k",
+      "f8EFrlSDgZ0",
+      "IV80uwH-jdg",
+      "_-YjO6KfEMk"
+    ];
+
     // Music toggle function
     function toggleMusic() {
       const musicStatus = document.getElementById('musicStatus');
       
       if (isPlaying) {
-        // Stop music by removing src
         youtubePlayer.src = '';
         musicStatus.textContent = 'Play Music';
         isPlaying = false;
-        console.log('Music paused');
       } else {
-        // Start music with autoplay=1
-        youtubePlayer.src = 'https://www.youtube.com/embed/9LxzyrhBsFI?autoplay=1&loop=1&playlist=9LxzyrhBsFI&controls=0&mute=0&rel=0&modestbranding=1';
+        // Pick a random song
+        const randomId = songs[Math.floor(Math.random() * songs.length)];
+        youtubePlayer.src = `https://www.youtube.com/embed/${randomId}?autoplay=1&loop=1&playlist=${randomId}&controls=0&mute=0&rel=0&modestbranding=1`;
         musicStatus.textContent = 'Pause Music';
         isPlaying = true;
-        console.log('Music resumed');
       }
     }
 
@@ -239,9 +246,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
