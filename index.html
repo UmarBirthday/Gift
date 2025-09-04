@@ -1,248 +1,157 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday Pooks</title>
+  <title>Neon Access Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
     body {
-      background: #0d0d0d;
-      background-attachment: fixed;
-      color: #e5e5e5;
-      overflow-x: hidden;
-    }
-    .glass {
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.5);
-    }
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 1s ease-out, transform 1s ease-out;
-    }
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .love-meter {
-      position: relative;
-      width: 100%;
-      height: 20px;
-      background: #222;
-      border-radius: 9999px;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #050510, #000);
+      font-family: 'Orbitron', sans-serif;
       overflow: hidden;
     }
-    .love-meter-fill {
+
+    /* Neon grid background */
+    .grid {
       position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #ec4899, #facc15);
-      border-radius: inherit;
-      transition: width 1s ease-out;
+      inset: 0;
+      background: linear-gradient(#0ff2 1px, transparent 1px),
+                  linear-gradient(90deg, #0ff2 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: moveGrid 15s linear infinite;
+      opacity: 0.15;
+      z-index: -1;
     }
-    .floating-heart {
+    @keyframes moveGrid {
+      from { background-position: 0 0; }
+      to { background-position: 60px 60px; }
+    }
+
+    /* Floating glowing orbs */
+    .orb {
       position: absolute;
-      color: rgba(236,72,153,0.3);
-      animation: floatUp 8s linear infinite;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.7;
+      animation: float 20s infinite ease-in-out alternate;
     }
-    @keyframes floatUp {
-      from { transform: translateY(100vh) scale(0.5); opacity: 1; }
-      to { transform: translateY(-10vh) scale(1); opacity: 0; }
+    .orb1 { background: #0ff; width: 400px; height: 400px; top: -100px; left: -150px; }
+    .orb2 { background: #f0f; width: 500px; height: 500px; bottom: -150px; right: -200px; animation-delay: 5s; }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-60px); }
+    }
+
+    /* Card hologram */
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.4);
+      border-radius: 20px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.4), inset 0 0 30px rgba(255, 0, 255, 0.2);
+      backdrop-filter: blur(20px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated border shine */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 20px;
+      background: linear-gradient(120deg, #0ff, #f0f, #0ff);
+      background-size: 200% 200%;
+      animation: borderShift 6s infinite linear;
+      z-index: -1;
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      padding: 3px;
+    }
+    @keyframes borderShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    /* Inputs */
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 0.8rem;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      background: rgba(0,0,0,0.6);
+      color: #0ff;
+      outline: none;
+      transition: 0.3s;
+    }
+    input:focus {
+      border-color: #0ff;
+      box-shadow: 0 0 18px #0ff8;
+    }
+
+    /* Button */
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(90deg, #0ff, #f0f);
+      color: white;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #0ff7;
+    }
+
+    /* Title glow */
+    h1 {
+      text-shadow: 0 0 15px #0ff, 0 0 25px #f0f;
     }
   </style>
 </head>
-<body class="min-h-screen antialiased selection:bg-pink-400/30 selection:text-pink-100">
-  <div class="fixed inset-x-0 top-0 h-[45vh] bg-gradient-to-b from-pink-900 via-fuchsia-800 to-transparent opacity-70 -z-10"></div>
-  <button onclick="toggleMusic()" class="fixed bottom-4 right-4 z-50 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-    <i class="fa-solid fa-music"></i> <span id="musicStatus">Play music</span>
-  </button>
+<body>
+  <!-- Futuristic background -->
+  <div class="grid"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
 
-  <main class="max-w-4xl mx-auto px-4 pb-20">
-    <!-- Hero Section -->
-    <section class="pt-20 fade-in">
-      <div class="glass relative">
-        <div class="flex flex-col md:flex-row items-center gap-6">
-          <div class="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-pink-800/30 grid place-items-center shadow-2xl">
-            <i class="fa-solid fa-heart text-3xl text-pink-400"></i>
-          </div>
-          <div>
-            <h1 class="text-4xl font-bold tracking-tight drop-shadow-sm">
-              Happy Birthday, <span class="text-pink-400">Pooks</span>
-            </h1>
-            <p class="mt-3 text-gray-300 leading-relaxed max-w-2xl">
-              A tiny website from panda to the most wonderful person I've ever met...
-            </p>
-            <div class="mt-4 flex flex-wrap gap-2 text-sm text-gray-400">
-              <span class="bg-white/5 rounded-full px-3 py-1"><i class="fa-regular fa-calendar"></i> 30 Aug 2025</span>
-              <span class="bg-white/5 rounded-full px-3 py-1"><i class="fa-solid fa-gift"></i> Birthday Message</span>
-              <span class="bg-white/5 rounded-full px-3 py-1"><i class="fa-solid fa-music"></i> Background Song(Tap the button to play)</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Letter Section -->
-    <section id="letter" class="mt-12 fade-in">
-      <div class="glass">
-        <div class="flex items-start gap-3">
-          <i class="fa-solid fa-quote-left text-xl mt-1 text-pink-400"></i>
-          <div>
-            <h2 class="text-2xl font-semibold">A Letter for You</h2>
-            <p class="text-sm text-gray-400">Written on <strong>29 Aug 2025</strong> at <strong>9:43 AM</strong></p>
-          </div>
-        </div>
-        <hr class="my-4 border-white/10" />
-        <div class="space-y-4 leading-relaxed text-gray-200">
-          <p>Hey Umar, I hope you're doing alright…</p>
-          <p>I'm writing this at 29 Aug 2025, 9:43 AM.</p>
-          <p>I still remember the night we met—after tuition, when someone was scaring you, you told Mamshooq to come, he brought me, and we all ended up in Haashiyaa's room.</p>
-          <p>We didn't speak much that night, but after, I got your Discord and the rest is history.</p>
-          <p>I wouldn't have thought I'd find this beautiful girl to talk to about everything and get so close.</p>
-          <p>Every time I saw you at tuition, every time I listened to your voice secretly at home… I knew I liked you, but I was afraid to risk our friendship.</p>
-          <p>When you asked, I lied and said you were too young.</p>
-          <p>Then you disappeared. I tried to move on. I couldn't.</p>
-          <p>There wasn't a day I didn't think of you. To forget, I did things I don't want to talk about... you already know.</p>
-          <p>A week without you… then the feelings came back, especially as it was almost a year since we stopped speaking.</p>
-          <p>Then your Dhontha wedding... I knew you'd come, but didn't want to believe it. And then you texted me.</p>
-          <p>Pooks, I honestly cant imagine a world without you, all the talks and the support we have given each other... I will never forget it.</p>
-          <p>I thank you from all of my heart for being my friend.</p>
-          <p>Thank you for being there and talking to me all those times.</p>
-          <p>Happy Birthday, Pooks. No matter what the future holds, I'll be there for you... no matter what.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Timeline Section -->
-    <section class="mt-12 fade-in">
-      <div class="glass">
-        <h3 class="text-2xl font-semibold mb-4 text-pink-300"><i class="fa-solid fa-sparkles"></i> Little Moments I Hold Onto</h3>
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="bg-white/5 rounded-lg p-4">
-            <h4 class="font-medium text-pink-200">The Night We Met</h4>
-            <p class="text-sm text-gray-400">After tuition — someone was scaring you, you told Mamshooq to come, he brought me, and we all ended up in Haashiyaa's room.</p>
-          </div>
-          <div class="bg-white/5 rounded-lg p-4">
-            <h4 class="font-medium text-pink-200">Discord Days</h4>
-            <p class="text-sm text-gray-400">Long talks, jokes, and feeling closer every day.</p>
-          </div>
-          <div class="bg-white/5 rounded-lg p-4">
-            <h4 class="font-medium text-pink-200">Tuition Glances</h4>
-            <p class="text-sm text-gray-400">Every time I saw you there... and listened to your voice secretly at home.</p>
-          </div>
-          <div class="bg-white/5 rounded-lg p-4">
-            <h4 class="font-medium text-pink-200">The Silence</h4>
-            <p class="text-sm text-gray-400">You disappeared. I tried to move on, but I couldn't.</p>
-          </div>
-          <div class="bg-white/5 rounded-lg p-4">
-            <h4 class="font-medium text-pink-200">Dhontha Wedding</h4>
-            <p class="text-sm text-gray-400">I knew you'd be there. I didn't want to believe it... and then you texted.</p>
-          </div>
-          <div class="bg-white/5 rounded-lg p-4">
-            <h4 class="font-medium text-pink-200">Right Now</h4>
-            <p class="text-sm text-gray-400">I feel grateful to have such a close friend like you, and i hope with all my heart you live a good, beautiful life...</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Fun Meter -->
-    <section class="mt-12 fade-in">
-      <div class="glass">
-        <h3 class="text-2xl font-semibold mb-4 text-pink-300"><i class="fa-solid fa-heart"></i>Age meter</h3>
-        <div class="love-meter">
-          <div class="love-meter-fill" id="loveMeterFill"></div>
-        </div>
-        <p class="mt-2 text-sm text-gray-400">Age <strong class="text-pink-300">14</strong> 😌👊✌️💖</p>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="mt-12 text-center text-sm text-gray-500 fade-in">
-      Made with <i class="fa-solid fa-heart text-pink-400"></i> & patience. Always here for you... no matter what.
-      <div class="mt-2 text-xs opacity-60">Made by panda to pooks in almost 2 weeks, Start date: 18 Aug 2025... End date 30 Aug 2025...</div>
-      <div class="mt-2 text-xs opacity-60">My lil pooks getting older...</div>
-      <div class="mt-2 text-xs opacity-60">I is proud of you pooks 😌👊✌️💖</div>
-    </footer>
-  </main>
-  
-  <!-- Hidden YouTube player -->
-  <iframe id="youtube-player" 
-    style="display:none;" 
-    allow="autoplay; encrypted-media">
-  </iframe>
+  <!-- Login Card -->
+  <div class="card relative z-10">
+    <h1 class="text-center text-3xl font-bold mb-6 text-cyan-400">🔐 ACCESS PORTAL</h1>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Enter your name" required />
+      <input type="password" id="password" placeholder="Enter password" required />
+      <button type="submit">Enter</button>
+    </form>
+  </div>
 
   <script>
-    let isPlaying = false;
-    let youtubePlayer = document.getElementById('youtube-player');
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const password = document.getElementById('password').value.trim();
 
-    // Playlist of songs
-    const songs = [
-      "9LxzyrhBsFI", // old one
-      "KlbACbvPCFE",
-      "J4icjQMjm8k",
-      "f8EFrlSDgZ0",
-      "IV80uwH-jdg",
-      "_-YjO6KfEMk"
-    ];
-
-    // Music toggle function
-    function toggleMusic() {
-      const musicStatus = document.getElementById('musicStatus');
-      
-      if (isPlaying) {
-        youtubePlayer.src = '';
-        musicStatus.textContent = 'Play Music';
-        isPlaying = false;
+      if (password === "pooks2025") { // ✅ change your password here
+        window.location.href = "birthday.html";
       } else {
-        // Pick a random song
-        const randomId = songs[Math.floor(Math.random() * songs.length)];
-        youtubePlayer.src = `https://www.youtube.com/embed/${randomId}?autoplay=1&loop=1&playlist=${randomId}&controls=0&mute=0&rel=0&modestbranding=1`;
-        musicStatus.textContent = 'Pause Music';
-        isPlaying = true;
-      }
-    }
-
-    // Intersection Observer for fade-ins
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-    // Love meter fill animation on scroll
-    const loveMeter = document.getElementById('loveMeterFill');
-    window.addEventListener('scroll', () => {
-      const rect = loveMeter.getBoundingClientRect();
-      const winHeight = window.innerHeight;
-      if (rect.top < winHeight && rect.bottom > 0) {
-        loveMeter.style.width = '100%';
+        window.location.href = "wrong.html";
       }
     });
-
-    // Floating hearts generator
-    function createHeart() {
-      const heart = document.createElement('i');
-      heart.className = 'fa-solid fa-heart floating-heart';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-      heart.style.animationDuration = (5 + Math.random() * 5) + 's';
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 10000);
-    }
-    setInterval(createHeart, 700);
   </script>
 </body>
 </html>
