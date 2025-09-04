@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACCESS DENIED</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #0d0d0d 20%, #000 100%);
+      color: #0ff;
+      font-family: 'Orbitron', sans-serif;
+      overflow: hidden;
+      perspective: 1000px;
+    }
+
+    /* Futuristic grid background */
+    .grid-bg {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(#0ff2 1px, transparent 1px),
+                  linear-gradient(90deg, #0ff2 1px, transparent 1px);
+      background-size: 40px 40px;
+      transform: rotateX(60deg);
+      animation: moveGrid 5s linear infinite;
+      z-index: -2;
+    }
+    @keyframes moveGrid {
+      from { background-position: 0 0; }
+      to { background-position: 0 40px; }
+    }
+
+    /* Glitchy text */
+    .glitch {
+      font-size: 3rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      position: relative;
+      color: #0ff;
+      animation: flicker 1.5s infinite alternate;
+    }
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: transparent;
+      overflow: hidden;
+    }
+    .glitch::before {
+      left: 2px;
+      text-shadow: -2px 0 magenta;
+      animation: glitch1 1s infinite linear alternate-reverse;
+    }
+    .glitch::after {
+      left: -2px;
+      text-shadow: -2px 0 lime;
+      animation: glitch2 0.8s infinite linear alternate-reverse;
+    }
+    @keyframes glitch1 {
+      0% { clip-path: inset(0 0 90% 0); }
+      50% { clip-path: inset(20% 0 60% 0); }
+      100% { clip-path: inset(40% 0 30% 0); }
+    }
+    @keyframes glitch2 {
+      0% { clip-path: inset(80% 0 10% 0); }
+      50% { clip-path: inset(30% 0 50% 0); }
+      100% { clip-path: inset(10% 0 80% 0); }
+    }
+    @keyframes flicker {
+      from { opacity: 1; }
+      to { opacity: 0.7; }
+    }
+
+    /* Floating console */
+    .console-box {
+      background: rgba(0,255,255,0.05);
+      border: 1px solid #0ff5;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 0 20px #0ff3, inset 0 0 10px #0ff2;
+      transform: rotateY(-10deg) rotateX(5deg);
+      animation: float 3s ease-in-out infinite alternate;
+    }
+    @keyframes float {
+      from { transform: rotateY(-10deg) rotateX(5deg) translateY(0); }
+      to { transform: rotateY(10deg) rotateX(-5deg) translateY(-10px); }
+    }
+
+    /* Typing effect */
+    .console-line {
+      color: #0ff;
+      font-family: monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #0ff;
+      animation: typing 3s steps(40, end), blink 1s infinite;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    .btn {
+      margin-top: 2rem;
+      background: #0ff3;
+      border: 1px solid #0ff7;
+      padding: 0.75rem 2rem;
+      border-radius: 9999px;
+      color: #0ff;
+      font-weight: bold;
+      text-transform: uppercase;
+      transition: all 0.3s;
+    }
+    .btn:hover {
+      background: #0ff7;
+      color: black;
+      box-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <div class="console-box text-center">
+    <h1 class="glitch" data-text="ACCESS DENIED">ACCESS DENIED</h1>
+    <p class="mt-4 console-line">heh... nice try bruv 🤡</p>
+    <p class="mt-2 text-pink-400">you really thought you could enter the system?</p>
+    <p class="mt-2 text-yellow-300">[ERROR 404] → password strength: weak bruv 💀</p>
+    <p class="mt-2 text-green-300">system response: "denied, clown 🤖"</p>
+    <a href="index.html" class="btn">Return & Try Again</a>
+  </div>
+
+  <!-- Background music -->
+  <iframe id="troll-music"
+    src="https://www.youtube.com/embed/hZQIc54royQ?autoplay=1&loop=1&playlist=hZQIc54royQ&controls=0&mute=0&rel=0&modestbranding=1"
+    style="display:none;"
+    allow="autoplay; encrypted-media">
+  </iframe>
+</body>
+</html>
